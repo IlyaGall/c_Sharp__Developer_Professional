@@ -23,37 +23,38 @@ namespace ProfHomeWork1
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            #region Проверка времени выполнения без task 
+            stopwatch.Start();
+            NumberOfSpaces.GetSpace(listPathFiles[0], true);
+            NumberOfSpaces.GetSpace(listPathFiles[1], true);
+            NumberOfSpaces.GetSpace(listPathFiles[2], true);
+            stopwatch.Stop();
+            Console.WriteLine($"No Task timer {stopwatch}");
+            #endregion
+
+            #region 1 задание Task и Stopwatch
+            stopwatch.Reset();
+            stopwatch.Start();
             var cts = new CancellationTokenSource();
             List<Task<int>> tasks = new List<Task<int>>();
-
             for (int i = 0; i <= 2; i++)
             {
                 int iTask = i; // проблемма с итератором он присваивает 3
-                tasks.Add(Task.Run(() => 
-                     NumberOfSpaces.GetSpace(listPathFiles[iTask])));
+                tasks.Add(Task.Run(() =>
+                     NumberOfSpaces.GetSpace(listPathFiles[iTask], true)));
             }
             int[] results = await Task.WhenAll(tasks);
-
-    
             stopwatch.Stop();
-            Console.WriteLine($"Task timer {stopwatch} rezult: {results[0]} {results[1]} {results[2]} \n{results.Sum()}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Task timer {stopwatch}\nrezult: {results[0]} {results[1]} {results[2]} \nsum: {results.Sum()}");
+            Console.ForegroundColor = ConsoleColor.White;
+            #endregion
 
-            stopwatch.Start();
-            NumberOfSpaces.GetSpace(listPathFiles[0]);
-            NumberOfSpaces.GetSpace(listPathFiles[1]);
-            NumberOfSpaces.GetSpace(listPathFiles[2]);
-            stopwatch.Stop();
-            Console.WriteLine($"No Task timer {stopwatch}");
-            
-
-
-
-
-            NumberOfSpaces.GetSpace(@"C:\\Users\\Ilya\\Desktop\\Новая папка (54)\\Новый текстовый документ (2).txt");
-       
-            Task task = new Task(() => Console.WriteLine("Hello Task!"));
-            task.Start();
-            Console.WriteLine("Hello, World!");
+            #region     Написать функцию, принимающую в качестве аргумента путь к папке. Из этой папки параллельно прочитать все файлы и вычислить количество пробелов в них.
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(await NumberOfSpaces.GetSpaceInFolder(@"C:\\Users\\Ilya\\Desktop\\Новая папка (54)"));
+            Console.ForegroundColor = ConsoleColor.White;
+            #endregion
         }
     }
 }
