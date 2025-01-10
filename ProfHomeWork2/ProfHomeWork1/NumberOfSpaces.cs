@@ -12,13 +12,13 @@ namespace ProfHomeWork1
         /// Метод для работы с файлом
         /// </summary>
         /// <param name="filePath">Путь к файлу</param>
-        private int OpenTxtAndGetCountSpace(string filePath) 
+        static public int GetSpace(string filePath) 
         {
             if (File.Exists(filePath))
             {
                 using (StreamReader reader = new StreamReader(filePath))
                 {
-                    return reader.ReadToEnd().Count(x => x == ' ');
+                    return  reader.ReadToEnd().Count(x => x == ' ');
                 }
             }
             else 
@@ -32,10 +32,12 @@ namespace ProfHomeWork1
         /// </summary>
         /// <param name="path">Путь к папке</param>
         /// <returns></returns>
-        public int GetSpace(string path) 
+        public static  int GetSpaceInFolder(string path) 
         {
-            OpenTxtAndGetCountSpace(path);
+            Thread.Sleep(5000);
             return 0;
+           // return  OpenTxtAndGetCountSpace(path);
+           
         }
     }
 }
