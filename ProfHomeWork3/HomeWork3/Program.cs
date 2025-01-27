@@ -7,39 +7,42 @@ namespace HomeWork3
         static void Main(string[] args)
         {
 
-          
-            List<int[]> ints = new List<int[]>() 
+
+            List<int[]> ints = new List<int[]>()
             {
                 CreateArrayInt(100_000),
                 CreateArrayInt(1_000_000),
                 CreateArrayInt(10_000_000)
             };
 
+            for (int i = 0; i < 10; i++)
+            { //прогон 10 раз
+                Console.WriteLine($"Прогон: {i}");
+                foreach (var arrayItem in ints)
+                {
 
-            foreach (var arrayItem in ints)
-            {
+                    // однопоточный перебор
+                    Stopwatch sw = Stopwatch.StartNew();
+                    long sequentialSum = SequentialSum(arrayItem);
+                    sw.Stop();
+                    long sequentialTime = sw.ElapsedMilliseconds;
 
-                // Sequential Sum
-                Stopwatch sw = Stopwatch.StartNew();
-                long sequentialSum = SequentialSum(arrayItem);
-                sw.Stop();
-                long sequentialTime = sw.ElapsedMilliseconds;
+                    //  Thread
+                    sw.Restart();
+                    long parallelSum = ParallelSum(arrayItem);
+                    sw.Stop();
+                    long parallelTime = sw.ElapsedMilliseconds;
 
-                // Parallel Sum
-                sw.Restart();
-                long parallelSum = ParallelSum(arrayItem);
-                sw.Stop();
-                long parallelTime = sw.ElapsedMilliseconds;
+                    // linq
+                    sw.Restart();
+                    long linqSum = arrayItem.AsParallel().Sum();
+                    sw.Stop();
+                    long linqTime = sw.ElapsedMilliseconds;
+                    Console.WriteLine($"{arrayItem.Count()}, Без потоков: {sequentialTime}, thread: {parallelTime}, linq: {linqTime}");
 
-                // LINQ Sum
-                sw.Restart();
-                long linqSum = arrayItem.AsParallel().Sum();
-                sw.Stop();
-                long linqTime = sw.ElapsedMilliseconds;
-
-                Console.WriteLine($"{arrayItem.Count()}, Без потоков: {sequentialTime}, thread: {parallelTime}, linq: {linqTime}");
+                }
+                Console.WriteLine();
             }
-
 
 
             /*
@@ -60,7 +63,12 @@ namespace HomeWork3
              */
         }
 
-        static int[] CreateArrayInt(int countElement) 
+        /// <summary>
+        /// Создать массив int(одинаковые числа)
+        /// </summary>
+        /// <param name="countElement">Кол-во элементов, которые нужно заполнить</param>
+        /// <returns></returns>
+        static int[] CreateArrayInt(int countElement)
         {
             int[] array = new int[countElement];
             for (int i = 0; i < countElement; i++)
@@ -69,6 +77,12 @@ namespace HomeWork3
             }
             return array;
         }
+
+        /// <summary>
+        /// Посчитыть сумму цифр в однопоточном режиме
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns>Массив, который нужно посчитать</returns>
         static long SequentialSum(int[] array)
         {
             long sum = 0;
@@ -79,6 +93,11 @@ namespace HomeWork3
             return sum;
         }
 
+        /// <summary>
+        /// Посчитать сумму thread
+        /// </summary>
+        /// <param name="array">Массив, который нужно посчитать</param>
+        /// <returns></returns>
         static long ParallelSum(int[] array)
         {
             long sum = 0;
@@ -97,7 +116,7 @@ namespace HomeWork3
                     {
                         localSum += array[j];
                     }
-                    partialSums[i-1] = localSum;
+                    partialSums[i - 1] = localSum;
                 });
             }
 
