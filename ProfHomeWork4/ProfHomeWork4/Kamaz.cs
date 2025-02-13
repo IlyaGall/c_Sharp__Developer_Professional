@@ -15,17 +15,22 @@ namespace ProfHomeWork4
         /// Название модели камаза
         /// </summary>
         public string NameModel { get; set; }
-        
 
-        public Kamaz(string name, double price, string color, double downshift, string nameModel) 
+        /// <summary>
+        /// грузоподъемность грузовика
+        /// </summary>
+        public double TruckCapacity { get; set; }
+
+        public Kamaz(string name, double price, string color, double downshift, string nameModel,double truckCapacity) 
             : base(name,  price,  color,  downshift)
         {
             NameModel = nameModel;
+            TruckCapacity = truckCapacity;
         }
 
         public override Truck Clone()
         {
-            return new Kamaz(NameCar,  Price,  Color, BodyCapacity,  NameModel);
+            return new Kamaz(NameCar,  Price,  Color, BodyCapacity,  NameModel, TruckCapacity);
         }
     }
 }
