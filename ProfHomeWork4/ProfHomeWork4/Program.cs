@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Xml.Linq;
 
 namespace ProfHomeWork4
 {
@@ -53,8 +55,14 @@ namespace ProfHomeWork4
          */
         static void Main(string[] args)
         {
+
             UAZ uAZ = new UAZ(name: "Красная машина", price:1234, color:"Зелённая", downshift:false, snorkel:false){};
-            UAZ b = (UAZ)uAZ.Clone();
+            UAZ uAZClone = (UAZ)uAZ.Clone();
+            uAZClone.Color = "черная";
+
+            Kamaz kamaz = new Kamaz(name: "Грузовичёк", price: 9876, color: "Оранжевый", downshift: 19.2, "Самосвал", truckCapacity: 123456);
+            Kamaz kamazClone = (Kamaz)kamaz.Clone();
+            kamazClone.Color = "его нет";
         }
     }
 }
