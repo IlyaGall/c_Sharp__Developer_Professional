@@ -1,4 +1,7 @@
-﻿namespace ProfHomeWork4
+﻿using System;
+using System.Drawing;
+
+namespace ProfHomeWork4
 {
     internal class Program
     {
@@ -50,28 +53,8 @@
          */
         static void Main(string[] args)
         {
-
-
-            UAZ uAZ = new UAZ()
-            {
-                NameCar = "Красная машина",
-                Price = 1234,
-                Color = "Зелённая",
-                Downshift = false,
-                InteraxleLock = false,
-                Snorkel = false,
-            };
-            Jeep myJeep = new Jeep() 
-            {
-                NameCar="Красная машина",
-                Price =1234,
-                Color="Зелённая",
-                Downshift=false,
-                InteraxleLock=false
-               
-                
-            };
-         
+            UAZ uAZ = new UAZ(name: "Красная машина", price:1234, color:"Зелённая", downshift:false, snorkel:false){};
+            UAZ b = (UAZ)uAZ.Clone();
         }
     }
 }
