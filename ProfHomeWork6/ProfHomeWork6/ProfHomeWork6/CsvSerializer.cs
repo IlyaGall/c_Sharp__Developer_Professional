@@ -8,7 +8,13 @@ using System.Threading.Tasks;
 namespace ProfHomeWork6
 {
     internal class CsvSerializer
-    {// Сериализация объекта в CSV-строку
+    {
+        /// <summary>
+        /// Сериализировать объект
+        /// </summary>
+        /// <typeparam name="T">Тип объекта</typeparam>
+        /// <param name="obj">Объект</param>
+        /// <returns>CSV текст</returns>
         public static string Serialize<T>(T obj)
         {
             var type = typeof(T);
@@ -31,8 +37,11 @@ namespace ProfHomeWork6
 
             return string.Join(",", values);
         }
-
-        // Десериализация CSV-строки в объект
+        /// <summary>
+        ///  Десериализация CSV-строки в объект
+        /// </summary>
+        /// <param name="csv">строка csv</typeparam>
+        /// <returns>Объект</returns>
         public static T Deserialize<T>(string csv) where T : new()
         {
             var type = typeof(T);
@@ -63,7 +72,6 @@ namespace ProfHomeWork6
                 field.SetValue(obj, value);
                 index++;
             }
-
             return obj;
         }
     }
