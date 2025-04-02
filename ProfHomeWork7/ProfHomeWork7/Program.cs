@@ -45,7 +45,7 @@ namespace ProfHomeWork7
             #endregion
 
 
-            #region 2-5 task
+        #region 2-5 task
             DocumentsReceiver documentsReceiver = new DocumentsReceiver();
             documentsReceiver.found += FileFound;
             documentsReceiver.StartReceiver(@"C:\gitHub\c_Sharp__Developer_Professional\ProfHomeWork7");
