@@ -53,7 +53,14 @@ namespace ProfHomeWork7
             #endregion
 
         }
-        private static void FileFound(string message) => Console.WriteLine($"Файл  нашёл {message}");
+        private static void FileFound(DocumentsReceiver sender, FileArgs e)
+        {
+            Console.WriteLine($"Файл  нашёл {e.FileName}");
+            if (e.FileName.Contains(".NETCoreApp,Version=v8.0.AssemblyAttributes.cs"))
+            {
+                  sender.IsStop = true;
+            }
+        }
        
         
 

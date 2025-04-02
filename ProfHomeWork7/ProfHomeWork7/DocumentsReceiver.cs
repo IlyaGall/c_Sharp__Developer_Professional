@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,8 +26,12 @@ namespace ProfHomeWork7
 
         public event FileFoundEventHandler found;
 
-        public delegate void FileFoundEventHandler(string message);
+        public delegate void FileFoundEventHandler(DocumentsReceiver sender, FileArgs e);
 
+        /// <summary>
+        /// Завершить обработку
+        /// </summary>
+        volatile public bool IsStop  = false;
 
         /// <summary>
         /// Поиск файлов
@@ -38,14 +43,20 @@ namespace ProfHomeWork7
             {
                 foreach (string f in Directory.GetFiles(dir))
                 {
-                   //Console.WriteLine($"Файл  нашёл {f}");
-                  
-                    found?.Invoke($"Со счета снято: {f}");
+                    //обход файлов
+                    found?.Invoke(this, new FileArgs(f));
+                    if (IsStop) 
+                    {
+                        return;
+                    }
                 }
-
                 foreach (string d in Directory.GetDirectories(dir))
                 {
-                  //  Console.WriteLine($"Папка {d}");
+                    if (IsStop)
+                    {
+                        return;
+                    }
+                    //  обход папок
                     StartReceiver(d);
                 }
             }
